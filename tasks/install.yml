@@ -1,0 +1,22 @@
+---
+- name: Install Influxdata repository (RedHat)
+  yum_repository:
+    name: influxdb
+    description: InfluxDB Repository - RHEL $releasever
+    baseurl: https://repos.influxdata.com/rhel/$releasever/$basearch/stable
+    state: "{{ influxdata_repo_state }}"
+    gpgkey: "{{ influxdata_repository_key }}"
+  when: ansible_os_family == "RedHat"
+
+- block:
+    - name: Install Influxdata repository key (Debian)
+      apt_key:
+        url: "{{ influxdata_repository_key }}"
+        state: "{{ influxdata_repo_state }}"
+
+    - name: Install Influxdata repository (Debian)
+      apt_repository:
+        repo: deb https://repos.influxdata.com/{{ ansible_distribution | lower }} {{ ansible_distribution_release | lower }} stable
+        state: "{{ influxdata_repo_state }}"
+        filename: influxdb
+  when: ansible_os_family == "Debian"
