@@ -1,0 +1,12 @@
+---
+- block:
+    - name: Set version for Amazon Linux 1
+      set_fact:
+        influxdata_repo_distro_version: "6"
+      when: ansible_distribution_version == "NA"
+
+    - name: Set version for Amazon Linux 2
+      set_fact:
+        influxdata_repo_distro_version: "7"
+      when: ansible_distribution_version == "2"
+  when: ansible_distribution == "Amazon"
