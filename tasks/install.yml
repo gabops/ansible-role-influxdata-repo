@@ -3,7 +3,7 @@
   yum_repository:
     name: influxdb
     description: InfluxDB Repository - RHEL $releasever
-    baseurl: https://repos.influxdata.com/rhel/$releasever/$basearch/stable
+    baseurl: https://repos.influxdata.com/centos/{{ '$releasever' if ansible_distribution == 'CentOS' else influxdata_repo_distro_version }}/$basearch/stable
     state: "{{ influxdata_repo_state }}"
     gpgkey: "{{ influxdata_repository_key }}"
   when: ansible_os_family == "RedHat"
